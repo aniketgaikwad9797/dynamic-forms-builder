@@ -1,31 +1,47 @@
 <div class="form-list">
   <h2>Form Templates</h2>
 
-  <mat-card *ngFor="let form of forms$ | async" class="form-card">
-    <mat-card-header>
-      <mat-card-title>{{ form.title }}</mat-card-title>
-      <mat-card-subtitle>Created: {{ form.created | date }}</mat-card-subtitle>
-    </mat-card-header>
+  <div *ngIf="(forms$ | async)?.length; else emptyState" class="form-grid">
+    <mat-card *ngFor="let form of forms$ | async" class="form-card">
+      <mat-card-header>
+        <mat-card-title>{{ form.title }}</mat-card-title>
+        <mat-card-subtitle
+          >Created: {{ form.created | date }}</mat-card-subtitle
+        >
+      </mat-card-header>
 
-    <mat-card-actions *ngIf="isAdmin$">
+      <mat-card-actions *ngIf="isAdmin$">
+        <button
+          mat-button
+          [routerLink]="['/forms/builder']"
+          [state]="{ form: form }"
+        >
+          Edit
+        </button>
+        <button mat-button color="warn" (click)="deleteForm(form.id)">
+          Delete
+        </button>
+      </mat-card-actions>
+
       <button
-        mat-button
-        [routerLink]="['/forms/builder']"
-        [state]="{ form: form }"
+        mat-raised-button
+        color="primary"
+        [routerLink]="['/forms/fill', form.id]"
       >
-        Edit
+        Fill Form
       </button>
-      <button mat-button color="warn" (click)="deleteForm(form.id)">
-        Delete
-      </button>
-    </mat-card-actions>
+    </mat-card>
+  </div>
 
-    <button
-      mat-raised-button
-      color="primary"
-      [routerLink]="['/forms/fill', form.id]"
-    >
-      Fill Form
-    </button>
-  </mat-card>
+  <!-- Empty State Template -->
+  <ng-template #emptyState>
+    <mat-card class="empty-state-card">
+      <mat-card-content>
+        <div class="empty-state-content">
+          <mat-icon class="empty-icon">note_add</mat-icon>
+          <h3>No Forms Available</h3>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </ng-template>
 </div>

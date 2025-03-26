@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { FormTemplate } from '../../core/form.model';
 import { AppState } from '../../store/form.reducer';
 import { loadForms, deleteForm } from '../../store/form.actions';
