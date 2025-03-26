@@ -1,27 +1,54 @@
-# DynamicFormDp
+# Dynamic Form Builder
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.0.
+A role-based dynamic form builder with Angular and NgRx state management.
 
-## Development server
+![App Preview](./screenshots/main-preview.png)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Key Features
 
-## Code scaffolding
+✅ **Implemented**
+- Drag-and-drop form builder with 5 field types which can be dragged and dropped as per the order we want
+- Role-based access control (Admin/User)
+- Form template management (Create/Delete)
+- Form submission system with validation
+- Basic responsive layout
+- Mock API service
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+⏳ **Partially Implemented**
+- **Edit Functionality** 
+  - *Current State:* Delete implemented, edit scaffolding in place  
+  - *Implementation Plan:*
+    ```typescript
+    // 1. Edit route with form ID parameter
+    { path: 'builder/:id', component: FormBuilderComponent }
+    
+    // 2. Load existing form in builder
+    this.store.select(selectFormById(id)).pipe(
+      tap(form => this.patchFormValues(form))
+    );
+    
+    // 3. Update NgRx store on save
+    dispatch(updateForm({ updatedForm }));
 
-## Build
+- **Advanced Responsiveness**
+  - *Current State:* Basic media queries implemented
+  - *Planned Enhancements:*
+    - Mobile-optimized drag handles
+    - Collapsible property panels
+    - Touch-friendly form previews
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Screenshots
 
-## Running unit tests
+## Application Screenshots
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### 1. Form Builder Landing Page
+![Form Builder Landing Page](./screenshots/FormBuilderLanding.png)
 
-## Running end-to-end tests
+### 2. Form Builder in Action
+![Building a Form](./screenshots/FormBuilder1.png)
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+### 3. Form Filling Interface
+![Form Filling View](./screenshots/FormFilling.png)
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### 4. Forms List
+![List of Saved Forms](./screenshots/FormsList.png)
