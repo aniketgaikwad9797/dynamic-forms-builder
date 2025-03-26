@@ -1,0 +1,159 @@
+<div class="builder-container">
+  <!-- Field Palette -->
+  <div class="field-palette">
+    <h3>Add Field</h3>
+    <div class="field-types">
+      <button
+        mat-button
+        *ngFor="let type of fieldTypes"
+        (click)="addField(type)"
+      >
+        <mat-icon>{{ getFieldIcon(type) }}</mat-icon>
+        {{ type | titlecase }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Form Canvas -->
+  <div class="form-canvas">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline">
+        <mat-label>Form Title</mat-label>
+        <input matInput formControlName="title" required />
+      </mat-form-field>
+
+      <div
+        cdkDropList
+        (cdkDropListDropped)="onDrop($event)"
+        class="fields-container"
+      >
+        <div
+          *ngFor="let field of fieldsArray.controls; let i = index"
+          cdkDrag
+          [class.selected]="selectedFieldIndex === i"
+          (click)="selectField(i)"
+          class="field-item"
+        >
+          <div class="field-header">
+            <mat-icon class="drag-handle">drag_indicator</mat-icon>
+            <span class="field-type">{{ field.value.type | titlecase }}</span>
+            <button
+              mat-icon-button
+              color="warn"
+              (click)="removeField(i)"
+              class="delete-btn"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+
+          <div [ngSwitch]="field.value.type" class="field-preview">
+            <!-- Field Previews... -->
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button mat-button type="button" routerLink="/forms/list">
+          Cancel
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="form.invalid || isSubmitting"
+        >
+          {{ isSubmitting ? "Saving..." : "Save Form" }}
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Properties Panel -->
+  <div class="properties-panel" *ngIf="selectedFieldIndex !== null">
+    <h3>Field Properties</h3>
+    <form [formGroup]="getFieldGroup(selectedFieldIndex)">
+      <!-- Basic Properties -->
+      <mat-form-field appearance="outline">
+        <mat-label>Label</mat-label>
+        <input matInput formControlName="label" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Placeholder</mat-label>
+        <input matInput formControlName="placeholder" />
+      </mat-form-field>
+
+      <mat-form-field
+        appearance="outline"
+        *ngIf="
+          getFieldGroup(selectedFieldIndex).value.type === FieldType.TEXT ||
+          getFieldGroup(selectedFieldIndex).value.type === FieldType.TEXTAREA
+        "
+      >
+        <mat-label>Help Text</mat-label>
+        <input matInput formControlName="helpText" />
+      </mat-form-field>
+
+      <mat-checkbox formControlName="required">Required Field</mat-checkbox>
+
+      <!-- Validation Rules -->
+      <div class="section-title">Validation Rules</div>
+      <div formGroupName="validation">
+        <mat-form-field appearance="outline">
+          <mat-label>Min Length</mat-label>
+          <input matInput type="number" formControlName="minLength" min="0" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Max Length</mat-label>
+          <input matInput type="number" formControlName="maxLength" min="0" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Validation Pattern</mat-label>
+          <input
+            matInput
+            formControlName="pattern"
+            placeholder="e.g. [a-zA-Z]*"
+          />
+        </mat-form-field>
+      </div>
+
+      <!-- Options for Select/Radio/Checkbox -->
+      <div
+        *ngIf="needsOptions(getFieldGroup(selectedFieldIndex).value.type)"
+        class="options-section"
+      >
+        <div class="section-title">Options</div>
+        <div formArrayName="options">
+          <div
+            *ngFor="
+              let option of getOptionsArray(selectedFieldIndex).controls;
+              let i = index
+            "
+          >
+            <input
+              matInput
+              [formControl]="getOptionControl(selectedFieldIndex, i)"
+            />
+            <button
+              mat-icon-button
+              (click)="removeOption(selectedFieldIndex, i)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+          <button
+            mat-button
+            type="button"
+            (click)="addOption(selectedFieldIndex)"
+          >
+            <mat-icon>add</mat-icon>
+            Add Option
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

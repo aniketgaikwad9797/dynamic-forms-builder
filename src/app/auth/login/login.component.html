@@ -1,0 +1,17 @@
+<div class="login-container">
+  <mat-card class="login-card">
+    <h2>Welcome to Form Builder</h2>
+
+    <div class="role-selection">
+      <button mat-raised-button class="admin-btn" (click)="login('admin')">
+        <mat-icon>admin_panel_settings</mat-icon>
+        Login as Admin
+      </button>
+
+      <button mat-raised-button class="user-btn" (click)="login('user')">
+        <mat-icon>person</mat-icon>
+        Login as User
+      </button>
+    </div>
+  </mat-card>
+</div>

@@ -1,0 +1,31 @@
+<mat-toolbar color="primary">
+  <span>Dynamic Form Builder</span>
+
+  <span class="spacer"></span>
+
+  <ng-container *ngIf="authService.currentRole$ | async as role">
+    <button mat-button routerLink="/forms/list">
+      <mat-icon>list</mat-icon>
+      Forms
+    </button>
+
+    <button *ngIf="role === 'admin'" mat-button routerLink="/forms/builder">
+      <mat-icon>build</mat-icon>
+      Builder
+    </button>
+
+    <button mat-button (click)="switchRole()">
+      <mat-icon>switch_account</mat-icon>
+      Switch to {{ role === "admin" ? "User" : "Admin" }}
+    </button>
+
+    <button mat-button (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      Logout
+    </button>
+  </ng-container>
+</mat-toolbar>
+
+<div class="app-container">
+  <router-outlet></router-outlet>
+</div>
