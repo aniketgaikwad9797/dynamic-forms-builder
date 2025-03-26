@@ -1,7 +1,7 @@
 <div class="form-list">
   <h2>Form Templates</h2>
 
-  <div *ngIf="(forms$ | async)?.length; else emptyState" class="form-grid">
+  <div *ngIf="isEmpty$ | async; else emptyState" class="form-grid">
     <mat-card *ngFor="let form of forms$ | async" class="form-card">
       <mat-card-header>
         <mat-card-title>{{ form.title }}</mat-card-title>
