@@ -14,7 +14,6 @@ import { AuthService } from '../../core/auth.service';
 export class FormsListComponent implements OnInit {
   forms$!: Observable<FormTemplate[]>;
   isAdmin$ = this.auth.isAdmin;
-  isEmpty$ = this.forms$.pipe(map((forms) => forms.length === 0));
 
   constructor(private store: Store<AppState>, public auth: AuthService) {}
 
