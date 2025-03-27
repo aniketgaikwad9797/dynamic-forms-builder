@@ -9,7 +9,8 @@ A role-based dynamic form builder with Angular and NgRx state management.
 - Drag-and-drop form builder with 5 field types which can be dragged and dropped as per the order we want
 - Role-based access control (Admin/User)
 - Form template management (Create/Delete)
-- Form submission system with validation
+- Form submission system with reactive forms and validation
+- Unit testing for forms builder and forms list components
 - Basic responsive layout
 - Mock API service
 
